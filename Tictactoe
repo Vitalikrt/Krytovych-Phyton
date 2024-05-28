@@ -1,0 +1,139 @@
+top_ln = "___________           ___________"
+botom_ln = "‾‾‾‾‾‾‾‾‾‾‾           ‾‾‾‾‾‾‾‾‾‾‾"
+vert_ln = "———————————           ———————————"
+horz_ln = "||"
+blnk_sp = "           "
+cell_11 = "*"
+cell_12 = "*"
+cell_13 = "*"
+cell_21 = "*"
+cell_22 = "*"
+cell_23 = "*"
+cell_31 = "*"
+cell_32 = "*"
+cell_33 = "*"
+curent_time = 1
+winer = False
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+# function that we could use to show our playing board
+def show_brd ():
+    row_1 = F"{horz_ln}{cell_11}{horz_ln}{cell_12}{horz_ln}{cell_13}{horz_ln}{blnk_sp}{horz_ln}{1}{horz_ln}{2}{horz_ln}{3}{horz_ln}"
+    row_2 = F"{horz_ln}{cell_21}{horz_ln}{cell_22}{horz_ln}{cell_23}{horz_ln}{blnk_sp}{horz_ln}{4}{horz_ln}{5}{horz_ln}{6}{horz_ln}"
+    row_3 = F"{horz_ln}{cell_31}{horz_ln}{cell_32}{horz_ln}{cell_33}{horz_ln}{blnk_sp}{horz_ln}{7}{horz_ln}{8}{horz_ln}{9}{horz_ln}"
+    print(" Ваша гра", blnk_sp, "Розташування")
+    print(top_ln)
+    print(row_1)
+    print(vert_ln)
+    print(row_2)
+    print(vert_ln)
+    print(row_3)
+    print(botom_ln)
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+# function that allow us to place x on board and check if the place is alreayd taken
+def place_x():
+    global cell_11, cell_12, cell_13, cell_21, cell_22, cell_23, cell_31, cell_32, cell_33
+    placemant = int(input("Виберіть куди поставити X: "))
+    if placemant == 1 and cell_11 == "*":
+        cell_11 = "X"
+    elif placemant == 2 and cell_12 == "*":
+        cell_12 = "X"
+    elif placemant == 3 and cell_13 == "*":
+        cell_13 = "X"
+    elif placemant == 4 and cell_21 == "*":
+        cell_21 = "X"
+    elif placemant == 5 and cell_22 == "*":
+        cell_22 = "X"
+    elif placemant == 6 and cell_23 == "*":
+        cell_23 = "X"
+    elif placemant == 7 and cell_31 == "*":
+        cell_31 = "X"
+    elif placemant == 8 and cell_32 == "*":
+        cell_32 = "X"
+    elif placemant == 9 and cell_33 == "*":
+        cell_33 = "X"
+    elif placemant > 9:
+        print ("це число занадто велике, виберіть іншу клітинку")
+        place_x()
+    else:
+        print ("ця клітинка зайнят, виберіть іншу клітинку")
+        place_x()
+    show_brd()
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+# function that allow us to place c on board and check if the place is alreayd taken
+def place_o():
+    global cell_11, cell_12, cell_13, cell_21, cell_22, cell_23, cell_31, cell_32, cell_33
+    placemant = int(input("Виберіть куди поставити O: "))
+    if placemant == 1 and cell_11 == "*":
+        cell_11 = "O"
+    elif placemant == 2 and cell_12 == "*":
+        cell_12 = "O"
+    elif placemant == 3 and cell_13 == "*":
+        cell_13 = "O"
+    elif placemant == 4 and cell_21 == "*":
+        cell_21 = "O"
+    elif placemant == 5 and cell_22 == "*":
+        cell_22 = "O"
+    elif placemant == 6 and cell_23 == "*":
+        cell_23 = "O"
+    elif placemant == 7 and cell_31 == "*":
+        cell_31 = "O"
+    elif placemant == 8 and cell_32 == "*":
+        cell_32 = "O"
+    elif placemant == 9 and cell_33 == "*":
+        cell_33 = "O"
+    elif placemant > 9:
+        print ("це число занадто велике, виберіть іншу клітинку")
+        place_x()
+    else:
+        print ("ця клітинка зайнят, виберіть іншу клітинку")
+        place_x()
+    show_brd()
+
+#-----------------------------------------------------------------------------------------------------------------------------------
+#horizontal check
+def win_check():
+    global cell_11, cell_12, cell_13, cell_21, cell_22, cell_23, cell_31, cell_32, cell_33, winer
+
+    if cell_11 == cell_12 == cell_13 and cell_11 != "*":
+        print("Гравець", cell_11, "виграли гру")
+        winer = True
+    elif cell_21 == cell_22 == cell_23 and cell_21 != "*":
+        print("Гравець", cell_21, "виграли гру")
+        winer = True
+    elif cell_31 == cell_32 == cell_33 and cell_31 != "*":
+        print("Гравець", cell_31, "виграли гру")
+        winer = True
+#-----------------------------------------------------------------------------------------------------------------------------------
+# Vertical check
+    elif cell_11 == cell_21 == cell_31 and cell_11 != "*":
+        print("Гравець", cell_11, "виграли гру")
+        winer = True
+    elif cell_12 == cell_22 == cell_32 and cell_12 != "*":
+        print("Гравець", cell_12, "виграли гру")
+        winer = True
+    elif cell_13 == cell_23 == cell_33 and cell_13 != "*":
+        print("Гравець", cell_13, "виграли гру")
+        winer = True
+#-----------------------------------------------------------------------------------------------------------------------------------
+# Diagonal check
+    elif cell_11 == cell_22 == cell_33 and cell_11 != "*":
+        print("Гравець", cell_11, "виграли гру")
+        winer = True
+    elif cell_31 == cell_22 == cell_12 and cell_31 != "*":
+        print("Гравець", cell_31, "виграли гру")
+        winer = True
+
+
+show_brd()
+for curent_time in range(5):
+    place_x()
+    win_check()
+    if winer == True:
+        break
+    place_o()
+    win_check()
+    if winer == True:
+        break
