@@ -1,0 +1,87 @@
+DATA_STORAGE = []
+
+def parse_data(data_str, structure):
+    """
+    Парсить дані і створює словник
+    """
+    data_dict = {}
+    for field in data_str.split(','):
+        key, value = field.split('=')
+        if key.strip() in structure:
+            data_dict[key.strip()] = value.strip()
+    return data_dict
+
+def create_entity(data_str, structure, entity_type):
+    """
+    Створює сутність
+    """
+    try:
+        data_dict = parse_data(data_str, structure)
+        DATA_STORAGE.append(data_dict)
+        print(f"{entity_type} created successfully")
+    except Exception as err:
+        print(f"Error creating {entity_type}: {err}")
+
+def read_all_entities(entity_type):
+    """
+    Виводить всі сутності заданого типу
+    """
+    if DATA_STORAGE:
+        print(f"{entity_type.capitalize()}s in the database:")
+        for index, entity in enumerate(DATA_STORAGE, 1):
+            print(f"{index}. {entity}")
+    else:
+        print(f"The database is empty with respect to {entity_type}s")
+
+def update_entity(entity_id, field_name, new_value, entity_type):
+    """
+    Оновлює сутність
+    """
+    found = False
+    for entity in DATA_STORAGE:
+        if str(entity.get('id')) == entity_id:
+            entity[field_name] = new_value
+            print(f"{entity_type.capitalize()} with ID {entity_id} updated successfully")
+            found = True
+            break
+    if not found:
+        print(f"{entity_type.capitalize()} with ID {entity_id} not found")
+
+def delete_entity(entity_id, entity_type):
+    """
+    Видаляє сутність
+    """
+    for index, entity in enumerate(DATA_STORAGE):
+        if str(entity.get('id')) == entity_id:
+            del DATA_STORAGE[index]
+            print(f"{entity_type.capitalize()} with ID {entity_id} deleted successfully")
+            return
+    print(f"{entity_type.capitalize()} with ID {entity_id} not found")
+
+def main():
+
+    user_structure = ("id", "first_name", "last_name", "age", "email")
+    record_structure = ("id", "user", "position", "text")
+
+    create_entity("id=1,first_name=John,last_name=Doe,age=30,email=kmq@gmail.com", user_structure, "user")
+    create_entity("id=2,first_name=Alice,last_name=Smith,age=25,email=xnbmv@gmail.com", user_structure, "user")
+    create_entity("id=3,first_name=Bob,last_name=Johnson,age=40,email=ghjrmd@gmail.com", user_structure, "user")
+
+    create_entity("id=4,user=1,position=Manager,text=Some text 1", record_structure, "record")
+    create_entity("id=5,user=2,position=Developer,text=Some text 2", record_structure, "record")
+    create_entity("id=6,user=3,position=Writer,text=Some text 3", record_structure, "record")
+
+    read_all_entities("user")
+    read_all_entities("record")
+
+    update_entity('2', 'age', '26', 'user')
+    read_all_entities("user")
+
+    delete_entity('2', 'user')
+    read_all_entities("user")
+
+
+    delete_entity('5', 'record')
+    read_all_entities("user")
+if __name__ == "__main__":
+    main()
